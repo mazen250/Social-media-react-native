@@ -13,6 +13,7 @@ import React, { useState, useEffect, memo } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { AntDesign } from "@expo/vector-icons";
 import { Foundation } from "@expo/vector-icons";
+import RenderItem from "./components/RenderItem";
 const Home = () => {
   const navigation = useNavigation();
   const [data, setData] = useState([]);
@@ -57,9 +58,6 @@ const Home = () => {
     };
     fetchPosts();
   }, []);
-
-  
-
   return (
     <SafeAreaView style={styles.container}>
       <View
@@ -86,64 +84,19 @@ const Home = () => {
           <AntDesign name="search1" size={24} color="white" />
         </Text>
       </View>
-     
+
       {loading ? (
-         <View style={{flex:1,justifyContent:"center",alignItems:"center"}}>
+        <View
+          style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
+        >
           <ActivityIndicator size={"large"} color={"white"} />
-          </View>
+        </View>
       ) : (
         <FlatList
           data={data}
-          renderItem={
-            ({ item }) =>   <Pressable
-            style={styles.post}
-            onPress={() => navigation.navigate("SinglePost", { item })}
-          >
-            <View
-              style={{
-                flexDirection: "row",
-                alignItems: "center",
-              }}
-            >
-              <Image
-                style={{
-                  width: 50,
-                  height: 50,
-                  borderRadius: 50,
-                  marginRight: 10,
-                  backgroundColor: "white",
-                }}
-                source={{ uri: item.user?.image }}
-              />
-              <Text style={{ color: "white", fontSize: 24, fontWeight: "bold" }}>
-                {item.user?.username}
-              </Text>
-            </View>
-      
-            <Text style={{ color: "white", fontSize: 19 }}>
-              {item.title.length > 30
-                ? item.title.substring(0, 30) + "..."
-                : item.title}
-            </Text>
-            <Text style={{ color: "grey", fontSize: 16 }}>
-              {item.body.length > 100
-                ? item.body.substring(0, 100) + "..."
-                : item.body}
-            </Text>
-            <View
-              style={{
-                flexDirection: "row",
-                alignItems: "center",
-                marginTop: 10,
-              }}
-            >
-              <AntDesign name="hearto" size={21} color="white" />
-              <Text style={{ color: "white", fontSize: 16, marginLeft: 5 }}>
-                {item.reactions}
-              </Text>
-            </View>
-          </Pressable>
-          }
+          renderItem={({ item }) => (
+            <RenderItem item={item} navigation={navigation} />
+          )}
           keyExtractor={(item) => item.id}
         />
       )}
