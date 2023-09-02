@@ -1,20 +1,55 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { View, Text, StyleSheet } from "react-native";
+import React from "react";
+import { StatusBar } from "expo-status-bar";
+import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
 
-export default function App() {
+import Home from "./screens/Home";
+import SinglePost from "./screens/SinglePost";
+
+const Stack = createStackNavigator();
+
+const App = () => {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
-}
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen
+        
+          name="Home"
+          component={Home}
+          options={{
+            headerShown: false,
+            headerStyle: {
+              backgroundColor: "#212121",
+            },
+            headerTintColor: "#fff",
+            headerTitleStyle: {
+              fontWeight: "600",
+              fontSize: 24,
+            },
+          title: "codeJam",
+          }}
+        />
+        <Stack.Screen
+          name="SinglePost"
+          component={SinglePost}
+          options={{
+            headerStyle: {
+              backgroundColor: "#212121",
+            },
+            headerTintColor: "#fff",
+            headerTitleStyle: {
+              fontWeight: "bold",
+            },
+          }}
+          title="Post"
+        />
+      </Stack.Navigator>
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+      <StatusBar style="light" />
+    </NavigationContainer>
+  );
+};
+
+export default App;
+
